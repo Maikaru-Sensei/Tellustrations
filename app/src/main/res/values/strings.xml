@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Tellustrations</string>
+    <string name="tb_draw_clear">Clear</string>
+    <string name="tb_draw_check">Check</string>
 </resources>
