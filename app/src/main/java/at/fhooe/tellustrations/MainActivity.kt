@@ -11,5 +11,6 @@ class MainActivity : AppCompatActivity() {
 
         val intent: Intent = Intent(this, DrawActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }

@@ -2,4 +2,8 @@
     <string name="app_name">Tellustrations</string>
     <string name="tb_draw_clear">Clear</string>
     <string name="tb_draw_check">Check</string>
+    <string name="tb_draw_delete">Check</string>
+    <string name="dialog_draw_erase_size">Set size of eraser</string>
+    <string name="dialog_draw_erase_actual_size">50px</string>
+    <string name="dialog_draw_erase_ok">OK</string>
 </resources>

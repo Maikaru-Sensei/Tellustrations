@@ -1,10 +1,14 @@
 package at.fhooe.tellustrations
 
 import android.graphics.*
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.FrameLayout
+import android.widget.SeekBar
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import at.fhooe.tellustrations.databinding.ActivityDrawBinding
 import kotlinx.coroutines.Dispatchers
@@ -12,9 +16,12 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+
 const val TAG : String = "Tellustrations"
 
-class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchListener {
+class DrawActivity : AppCompatActivity(),
+                     SurfaceHolder.Callback,
+                     View.OnTouchListener {
 
     private lateinit var surfaceView: SurfaceView
     private lateinit var surfaceHolder: SurfaceHolder
@@ -22,6 +29,8 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
     private lateinit var path: Path
     private lateinit var toolbar: Toolbar
     private var defaultBackgroundColor: Int = Color.WHITE
+    private var defaultEraserSize: Int = 50
+    private var defaultPaintWidth: Float = 50f
 
     private lateinit var binding: ActivityDrawBinding
 
@@ -44,16 +53,17 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
 
         setSupportActionBar(toolbar)
 
-        // paint values will be set dynamically via color palette
+        // init Paint with default values
         paint = Paint()
         paint.isAntiAlias = true
         paint.isDither = true
-        paint.color = Color.RED
+        paint.color = Color.BLACK
         paint.style = Paint.Style.STROKE
         paint.strokeJoin = Paint.Join.ROUND
         paint.strokeCap = Paint.Cap.ROUND
-        paint.strokeWidth = 50.0f
+        paint.strokeWidth = defaultPaintWidth
     }
+
 
     /**
      * set toolbar menu
@@ -85,6 +95,7 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
                 }
             }
 
+            // write path to canvas (surfaceView)
             GlobalScope.launch {
                 writePathToCanvas(path)
             }
@@ -93,25 +104,64 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
         return true;
     }
 
+
     /**
      * will be called when an item inside the toolbar was clicked
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_toolbar_draw_erase -> {
-                // TODO 22.04.2021: open seekbar dialog for selection width of the eraser
-                if (paint.color == defaultBackgroundColor) {
-                    paint.color = Color.RED
-                }
-                else {
-                    paint.color = defaultBackgroundColor
-                }
+                val dialog: AlertDialog.Builder = AlertDialog.Builder(this)
+                val inflater: LayoutInflater = this.layoutInflater
+                val view: View = inflater.inflate(R.layout.dialog_draw_erase, null)
+                val seekBarEraser: SeekBar = view.findViewById(R.id.dialog_draw_erase_seekbar)
+                val circleBackground: FrameLayout = view.findViewById(R.id.dialog_draw_erase_size)
 
+                val startCircle: GradientDrawable = GradientDrawable()
+                startCircle.shape = GradientDrawable.OVAL
+                startCircle.setColor(Color.BLACK)
+                startCircle.setSize(paint.strokeWidth.toInt(), paint.strokeWidth.toInt())
+                circleBackground.background = startCircle
+
+                dialog.setView(view)
+                dialog.setPositiveButton(R.string.dialog_draw_erase_ok) { _, _ ->
+                    run {
+                        paint.strokeWidth = seekBarEraser.progress.toFloat()
+                    }
+                }
+                dialog.show()
+
+                seekBarEraser.progress = paint.strokeWidth.toInt()
+                seekBarEraser.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                        val circle: GradientDrawable = GradientDrawable()
+                        circle.shape = GradientDrawable.OVAL
+                        circle.setColor(Color.BLACK)
+                        circle.setSize(progress, progress)
+                        circleBackground.background = circle
+                    }
+
+                    override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+                    }
+
+                    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+                    }
+                })
+
+                paint.color = defaultBackgroundColor
                 path.reset()
             }
 
             R.id.menu_toolbar_draw_check -> {
                 // drawing is finished; move on to next Player
+            }
+
+            R.id.menu_toolbar_draw_delete -> {
+                // TODO 22.04.2021: delete and recreate canvas
+                paint.color = Color.GREEN
+                path.reset()
             }
 
             else -> {
@@ -145,5 +195,6 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
 
     }
 }
+
 
 
