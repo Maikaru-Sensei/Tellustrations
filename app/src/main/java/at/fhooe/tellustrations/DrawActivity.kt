@@ -1,5 +1,6 @@
 package at.fhooe.tellustrations
 
+import android.content.DialogInterface
 import android.graphics.*
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -19,15 +20,15 @@ import kotlinx.coroutines.withContext
 
 const val TAG : String = "Tellustrations"
 
-class DrawActivity : AppCompatActivity(),
-                     SurfaceHolder.Callback,
-                     View.OnTouchListener {
+class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchListener,
+                     DialogInterface.OnClickListener {
 
     private lateinit var surfaceView: SurfaceView
     private lateinit var surfaceHolder: SurfaceHolder
     private lateinit var paint: Paint
     private lateinit var path: Path
     private lateinit var toolbar: Toolbar
+    private lateinit var seekBarEraser: SeekBar
     private var defaultBackgroundColor: Int = Color.WHITE
     private var defaultEraserSize: Int = 50
     private var defaultPaintWidth: Float = 50f
@@ -110,11 +111,14 @@ class DrawActivity : AppCompatActivity(),
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+
+            /* open alertDialog and select size of the eraser
+            *  eraser has the same color like the background */
             R.id.menu_toolbar_draw_erase -> {
                 val dialog: AlertDialog.Builder = AlertDialog.Builder(this)
                 val inflater: LayoutInflater = this.layoutInflater
                 val view: View = inflater.inflate(R.layout.dialog_draw_erase, null)
-                val seekBarEraser: SeekBar = view.findViewById(R.id.dialog_draw_erase_seekbar)
+                seekBarEraser = view.findViewById(R.id.dialog_draw_erase_seekbar)
                 val circleBackground: FrameLayout = view.findViewById(R.id.dialog_draw_erase_size)
 
                 val startCircle: GradientDrawable = GradientDrawable()
@@ -124,16 +128,13 @@ class DrawActivity : AppCompatActivity(),
                 circleBackground.background = startCircle
 
                 dialog.setView(view)
-                dialog.setPositiveButton(R.string.dialog_draw_erase_ok) { _, _ ->
-                    run {
-                        paint.strokeWidth = seekBarEraser.progress.toFloat()
-                    }
-                }
+                dialog.setPositiveButton(R.string.dialog_draw_erase_ok, this)
                 dialog.show()
 
                 seekBarEraser.progress = paint.strokeWidth.toInt()
                 seekBarEraser.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                        // need to recreate a new Object to set another background?
                         val circle: GradientDrawable = GradientDrawable()
                         circle.shape = GradientDrawable.OVAL
                         circle.setColor(Color.BLACK)
@@ -158,8 +159,8 @@ class DrawActivity : AppCompatActivity(),
                 // drawing is finished; move on to next Player
             }
 
+            // TODO 22.04.2021: delete and recreate canvas
             R.id.menu_toolbar_draw_delete -> {
-                // TODO 22.04.2021: delete and recreate canvas
                 paint.color = Color.GREEN
                 path.reset()
             }
@@ -194,7 +195,15 @@ class DrawActivity : AppCompatActivity(),
     override fun surfaceDestroyed(holder: SurfaceHolder) {
 
     }
+
+    /**
+     * set eraser size from seekBar
+     */
+    override fun onClick(dialog: DialogInterface?, which: Int) {
+        paint.strokeWidth = seekBarEraser.progress.toFloat()
+    }
 }
+
 
 
 
