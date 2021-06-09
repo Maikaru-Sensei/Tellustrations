@@ -4,13 +4,13 @@ import android.content.DialogInterface
 import android.graphics.*
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.view.drawToBitmap
 import at.fhooe.tellustrations.databinding.ActivityDrawBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -20,14 +20,13 @@ import kotlinx.coroutines.withContext
 
 const val TAG : String = "Tellustrations"
 
-class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchListener,
+class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchListener, View.OnClickListener,
                      DialogInterface.OnClickListener {
 
     private lateinit var surfaceView: SurfaceView
     private lateinit var surfaceHolder: SurfaceHolder
     private lateinit var paint: Paint
     private lateinit var path: Path
-    private lateinit var toolbar: Toolbar
     private lateinit var seekBarEraser: SeekBar
     private var defaultBackgroundColor: Int = Color.WHITE
     private var defaultEraserSize: Int = 50
@@ -41,7 +40,6 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
         setContentView(binding.root)
 
         surfaceView = binding.activityDrawSurfaceviewDraw
-        toolbar = binding.activityDrawToolbarDraw
 
         surfaceHolder = surfaceView.holder
 
@@ -52,7 +50,20 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
         surfaceView.setZOrderOnTop(true)
         surfaceView.setBackgroundColor(defaultBackgroundColor)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.activityDrawToolbarDraw)
+
+        with(binding) {
+            activityDrawPaletteBlue.setOnClickListener(this@DrawActivity)
+            activityDrawPaletteGreen.setOnClickListener(this@DrawActivity)
+            activityDrawPaletteYellow.setOnClickListener(this@DrawActivity)
+            activityDrawPaletteRed.setOnClickListener(this@DrawActivity)
+            activityDrawPaletteBlack.setOnClickListener(this@DrawActivity)
+            activityDrawPalettePurple.setOnClickListener(this@DrawActivity)
+            activityDrawPaletteOrange.setOnClickListener(this@DrawActivity)
+            activityDrawBrush.setOnClickListener(this@DrawActivity)
+            activityDrawPen.setOnClickListener(this@DrawActivity)
+        }
+
 
         // init Paint with default values
         paint = Paint()
@@ -133,7 +144,11 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
 
                 seekBarEraser.progress = paint.strokeWidth.toInt()
                 seekBarEraser.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    override fun onProgressChanged(
+                        seekBar: SeekBar?,
+                        progress: Int,
+                        fromUser: Boolean
+                    ) {
                         // need to recreate a new Object to set another background?
                         val circle: GradientDrawable = GradientDrawable()
                         circle.shape = GradientDrawable.OVAL
@@ -157,6 +172,9 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
 
             R.id.menu_toolbar_draw_check -> {
                 // drawing is finished; move on to next Player
+                surfaceHolder.lockCanvas()
+                val bmp = surfaceView.drawToBitmap()
+                val f = 4
             }
 
             // TODO 22.04.2021: delete and recreate canvas
@@ -201,6 +219,54 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
      */
     override fun onClick(dialog: DialogInterface?, which: Int) {
         paint.strokeWidth = seekBarEraser.progress.toFloat()
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            /* PENS */
+            R.id.activity_draw_brush -> {
+                paint.strokeWidth = 150f
+            }
+
+            R.id.activity_draw_pen -> {
+                paint.strokeWidth = 50f
+            }
+
+            /* COLORS */
+            R.id.activity_draw_palette_blue -> {
+                paint.color = ContextCompat.getColor(this, R.color.color_palette_blue)
+            }
+
+            R.id.activity_draw_palette_green -> {
+                paint.color = ContextCompat.getColor(this, R.color.color_palette_green)
+            }
+
+            R.id.activity_draw_palette_yellow -> {
+                paint.color = ContextCompat.getColor(this, R.color.color_palette_yellow)
+            }
+
+            R.id.activity_draw_palette_red -> {
+                paint.color = ContextCompat.getColor(this, R.color.color_palette_red)
+            }
+
+            R.id.activity_draw_palette_black -> {
+                paint.color = ContextCompat.getColor(this, R.color.color_palette_black)
+            }
+
+            R.id.activity_draw_palette_orange -> {
+                paint.color = ContextCompat.getColor(this, R.color.color_palette_orange)
+            }
+
+            R.id.activity_draw_palette_purple -> {
+                paint.color = ContextCompat.getColor(this, R.color.color_palette_purple)
+            }
+
+            else -> {
+
+            }
+        }
+
+        path.reset()
     }
 }
 
