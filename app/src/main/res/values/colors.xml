@@ -10,10 +10,13 @@
 
     <!-- COLOR PALETTE -->
     <color name="color_palette_blue">#1976d2</color>
+    <color name="color_palette_light_green">#64dd17</color>
     <color name="color_palette_green">#43a047</color>
     <color name="color_palette_yellow">#ffeb3b</color>
     <color name="color_palette_red">#e53935</color>
+    <color name="color_palette_gray">#757575</color>
     <color name="color_palette_black">#212121</color>
     <color name="color_palette_orange">#ef6c00</color>
     <color name="color_palette_purple">#8e24aa</color>
+    <color name="color_palette_cyan">#00acc1</color>
 </resources>

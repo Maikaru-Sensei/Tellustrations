@@ -1,5 +1,6 @@
 package at.fhooe.tellustrations
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.graphics.*
 import android.graphics.drawable.GradientDrawable
@@ -10,7 +11,6 @@ import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.drawToBitmap
 import at.fhooe.tellustrations.databinding.ActivityDrawBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -29,11 +29,12 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
     private lateinit var path: Path
     private lateinit var seekBarEraser: SeekBar
     private var defaultBackgroundColor: Int = Color.WHITE
-    private var defaultEraserSize: Int = 50
     private var defaultPaintWidth: Float = 50f
+    private lateinit var drawBitmap : Bitmap
 
     private lateinit var binding: ActivityDrawBinding
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDrawBinding.inflate(layoutInflater)
@@ -64,18 +65,18 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
             activityDrawPen.setOnClickListener(this@DrawActivity)
         }
 
-
         // init Paint with default values
         paint = Paint()
-        paint.isAntiAlias = true
-        paint.isDither = true
-        paint.color = Color.BLACK
-        paint.style = Paint.Style.STROKE
-        paint.strokeJoin = Paint.Join.ROUND
-        paint.strokeCap = Paint.Cap.ROUND
-        paint.strokeWidth = defaultPaintWidth
+        paint.apply {
+            isAntiAlias = true
+            isDither = true
+            color = Color.BLACK
+            style = Paint.Style.STROKE
+            strokeJoin = Paint.Join.ROUND
+            strokeCap = Paint.Cap.ROUND
+            strokeWidth = defaultPaintWidth
+        }
     }
-
 
     /**
      * set toolbar menu
@@ -113,7 +114,8 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
             }
         }
 
-        return true;
+        surfaceView.performClick()
+        return true
     }
 
 
@@ -132,7 +134,7 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
                 seekBarEraser = view.findViewById(R.id.dialog_draw_erase_seekbar)
                 val circleBackground: FrameLayout = view.findViewById(R.id.dialog_draw_erase_size)
 
-                val startCircle: GradientDrawable = GradientDrawable()
+                val startCircle = GradientDrawable()
                 startCircle.shape = GradientDrawable.OVAL
                 startCircle.setColor(Color.BLACK)
                 startCircle.setSize(paint.strokeWidth.toInt(), paint.strokeWidth.toInt())
@@ -150,7 +152,7 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
                         fromUser: Boolean
                     ) {
                         // need to recreate a new Object to set another background?
-                        val circle: GradientDrawable = GradientDrawable()
+                        val circle = GradientDrawable()
                         circle.shape = GradientDrawable.OVAL
                         circle.setColor(Color.BLACK)
                         circle.setSize(progress, progress)
@@ -171,16 +173,10 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
             }
 
             R.id.menu_toolbar_draw_check -> {
-                // drawing is finished; move on to next Player
-                surfaceHolder.lockCanvas()
-                val bmp = surfaceView.drawToBitmap()
-                val f = 4
             }
 
-            // TODO 22.04.2021: delete and recreate canvas
             R.id.menu_toolbar_draw_delete -> {
-                paint.color = Color.GREEN
-                path.reset()
+                clearCanvas()
             }
 
             else -> {
@@ -195,8 +191,10 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
      *  using coroutines otherwise we will block the UI thread */
     private suspend fun writePathToCanvas(path: Path) {
         withContext(Dispatchers.IO) {
-            val canvas: Canvas = surfaceHolder.lockCanvas()
+            var canvas = Canvas(drawBitmap)
             canvas.drawPath(path, paint)
+            canvas = surfaceHolder.lockCanvas(null)
+            canvas.drawBitmap(drawBitmap, 0f, 0f, null)
             surfaceHolder.unlockCanvasAndPost(canvas)
         }
     }
@@ -208,16 +206,16 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
         surfaceHolder = holder
+        drawBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
     }
 
-    override fun surfaceDestroyed(holder: SurfaceHolder) {
-
-    }
+    override fun surfaceDestroyed(holder: SurfaceHolder) { }
 
     /**
      * set eraser size from seekBar
      */
     override fun onClick(dialog: DialogInterface?, which: Int) {
+        paint.color = defaultBackgroundColor
         paint.strokeWidth = seekBarEraser.progress.toFloat()
     }
 
@@ -266,6 +264,18 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
             }
         }
 
+        path.reset()
+    }
+
+    /**
+     * "clears" the canvas; just paint white ;)
+     * */
+    private fun clearCanvas() {
+        var canvas = Canvas(drawBitmap)
+        canvas.drawColor(Color.WHITE)
+        canvas = surfaceHolder.lockCanvas(null)
+        canvas.drawBitmap(drawBitmap, 0f, 0f, null)
+        surfaceHolder.unlockCanvasAndPost(canvas)
         path.reset()
     }
 }

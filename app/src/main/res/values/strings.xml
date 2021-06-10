@@ -13,6 +13,9 @@
     <string name="color_black">Black</string>
     <string name="color_orange">Orange</string>
     <string name="color_purple">Purple</string>
+    <string name="color_light_green">Light Green</string>
+    <string name="color_gray">Gray</string>
+    <string name="color_cyan">Cyan</string>
     <string name="draw_brush">Brush</string>
     <string name="draw_pen">Pen</string>
 </resources>
