@@ -32,6 +32,7 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
     private var defaultPaintWidth: Float = 50f
     private lateinit var drawBitmap : Bitmap
 
+
     private lateinit var binding: ActivityDrawBinding
 
     @SuppressLint("ClickableViewAccessibility")
@@ -257,6 +258,10 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
 
             R.id.activity_draw_palette_purple -> {
                 paint.color = ContextCompat.getColor(this, R.color.color_palette_purple)
+            }
+
+            R.id.activity_draw_palette_cyan -> {
+                paint.color = ContextCompat.getColor(this, R.color.color_palette_cyan)
             }
 
             else -> {
