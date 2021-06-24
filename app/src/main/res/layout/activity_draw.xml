@@ -124,12 +124,12 @@
                     app:srcCompat="@drawable/shape_draw_color_purple" />
 
                 <ImageView
-                    android:id="@+id/activity_draw_palette_gray"
+                    android:id="@+id/activity_draw_palette_white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/color_gray"
                     android:padding="8dp"
-                    app:srcCompat="@drawable/shape_draw_color_gray" />
+                    app:srcCompat="@drawable/shape_draw_color_white" />
 
                 <ImageView
                     android:id="@+id/activity_draw_palette_cyan"
