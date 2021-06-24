@@ -62,6 +62,8 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
             activityDrawPaletteBlack.setOnClickListener(this@DrawActivity)
             activityDrawPalettePurple.setOnClickListener(this@DrawActivity)
             activityDrawPaletteOrange.setOnClickListener(this@DrawActivity)
+            activityDrawPaletteCyan.setOnClickListener(this@DrawActivity)
+            activityDrawPaletteGray.setOnClickListener(this@DrawActivity)
             activityDrawBrush.setOnClickListener(this@DrawActivity)
             activityDrawPen.setOnClickListener(this@DrawActivity)
         }
@@ -262,6 +264,10 @@ class DrawActivity : AppCompatActivity(), SurfaceHolder.Callback, View.OnTouchLi
 
             R.id.activity_draw_palette_cyan -> {
                 paint.color = ContextCompat.getColor(this, R.color.color_palette_cyan)
+            }
+
+            R.id.activity_draw_palette_gray -> {
+                paint.color = ContextCompat.getColor(this, R.color.color_palette_gray)
             }
 
             else -> {
