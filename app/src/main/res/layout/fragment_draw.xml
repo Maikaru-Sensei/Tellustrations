@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.DrawFragment">
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/fragment_draw_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.75" />
+
+        <SurfaceView
+            android:id="@+id/fragment_draw_surfaceview_draw"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_draw_palette"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/fragment_draw_palette"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_draw_color_palette"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fragment_draw_guideline">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/fragment_draw_palette_blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/color_blue"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/shape_draw_color_blue" />
+
+                    <ImageView
+                        android:id="@+id/fragment_draw_palette_green"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/color_green"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/shape_draw_color_green" />
+
+                    <ImageView
+                        android:id="@+id/fragment_draw_palette_yellow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/color_green"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/shape_draw_color_yellow" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/fragment_draw_palette_red"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/color_red"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/shape_draw_color_red" />
+
+                    <ImageView
+                        android:id="@+id/fragment_draw_palette_orange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/color_orange"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/shape_draw_color_orange" />
+
+                    <ImageView
+                        android:id="@+id/fragment_draw_palette_black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/color_black"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/shape_draw_color_black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:id="@+id/fragment_draw_palette_purple"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/color_purple"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/shape_draw_color_purple" />
+
+                    <ImageView
+                        android:id="@+id/fragment_draw_palette_white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/color_gray"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/shape_draw_color_white" />
+
+                    <ImageView
+                        android:id="@+id/fragment_draw_palette_cyan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/color_cyan"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/shape_draw_color_cyan" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/fragment_draw_brush"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/draw_brush"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/ic_brush" />
+
+                    <ImageView
+                        android:id="@+id/fragment_draw_pen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/draw_pen"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/ic_pen" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/fragment_draw_eraser"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/draw_brush"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/ic_rubber" />
+
+                    <ImageView
+                        android:id="@+id/fragment_draw_waste"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/draw_pen"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/ic_waste" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
