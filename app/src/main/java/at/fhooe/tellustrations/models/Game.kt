@@ -1,3 +1,8 @@
 package at.fhooe.tellustrations.models
 
-data class Game (val players: Int, val cards: List<Card>) {}
+class Game (val players: Int, val cards: ArrayList<Card>?) {
+
+    fun getCards(): List<Card>? {
+        return cards
+    }
+}

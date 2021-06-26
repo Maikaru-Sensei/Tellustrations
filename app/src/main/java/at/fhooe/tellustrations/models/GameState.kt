@@ -7,12 +7,8 @@ object GameState {
         this.game = game
     }
 
-    fun getGame() : Game? {
-        if (this::game.isInitialized) {
-            return game
-        }
-
-        return null
+    fun getGame() : Game {
+        return game
     }
 
 }

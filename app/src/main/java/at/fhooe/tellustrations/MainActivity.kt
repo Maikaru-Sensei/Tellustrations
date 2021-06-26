@@ -6,6 +6,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
+import at.fhooe.tellustrations.models.Card
+import at.fhooe.tellustrations.models.Game
+import at.fhooe.tellustrations.models.GameState
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +43,15 @@ class MainActivity : AppCompatActivity() {
         btnStart.setOnClickListener{
             preferencePlayers.setPlayerAmount(players)
             preferencePlayers.setPlayerNr(2)
+
+            val cards = ArrayList<Card>()
+
+            for (i in 0 until players) {
+                cards.add(Card(null, null, i+1))
+            }
+
+            val game = Game(players, cards)
+            GameState.setGame(game)
             val intentNextAc: Intent = Intent(this, ActivityFirstSentence::class.java)
             startActivity(intentNextAc)
         }

@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.FragmentContainerView
+import at.fhooe.tellustrations.models.Card
+import at.fhooe.tellustrations.models.GameState
+import at.fhooe.tellustrations.ui.DrawFragment
 
 class ActivitySketch : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,8 +25,23 @@ class ActivitySketch : AppCompatActivity() {
         val msg = findViewById<TextView>(R.id.textView_acSketch_sentence)
         msg.text = preference.getStrBuffer()
 
+        val fragment = DrawFragment()
+        val ft = supportFragmentManager.beginTransaction()
+        ft.setReorderingAllowed(true)
+        ft.replace(R.id.fragmentContainerView2, fragment)
+        ft.commit()
+
         val btnDone = findViewById<Button>(R.id.button_acSketch_done)
         btnDone.setOnClickListener {
+            val bmp = fragment.getBitmap()
+
+            val game = GameState.getGame()
+            val cards = game.cards
+            val c = Card(msg.text.toString(), bmp, playerNr)
+            cards?.set(playerNr-1, c)
+
+            GameState.setGame(game)
+
             if(playerNr == maxPlayer){
                 val intentNextAc: Intent = Intent(this, ActivityResults::class.java)
                 startActivity(intentNextAc)
@@ -34,5 +53,7 @@ class ActivitySketch : AppCompatActivity() {
             }
             finish()
         }
+
+
     }
 }

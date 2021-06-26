@@ -1,10 +1,12 @@
 package at.fhooe.tellustrations.ui
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.DialogInterface
 import android.graphics.*
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.SeekBar
@@ -22,8 +24,7 @@ import kotlinx.coroutines.withContext
 class DrawFragment : Fragment(), SurfaceHolder.Callback, View.OnTouchListener, View.OnClickListener,
     DialogInterface.OnClickListener {
 
-    var _binding: FragmentDrawBinding? = null
-    val binding get() = _binding!!
+    private lateinit var binding: FragmentDrawBinding
     
     private lateinit var surfaceView: SurfaceView
     private lateinit var surfaceHolder: SurfaceHolder
@@ -38,12 +39,11 @@ class DrawFragment : Fragment(), SurfaceHolder.Callback, View.OnTouchListener, V
         super.onCreate(savedInstanceState)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDrawBinding.inflate(inflater, container, false)
+        binding = FragmentDrawBinding.inflate(inflater, container, false)
 
         surfaceView = binding.fragmentDrawSurfaceviewDraw
 
@@ -52,9 +52,9 @@ class DrawFragment : Fragment(), SurfaceHolder.Callback, View.OnTouchListener, V
         surfaceHolder.setFormat(PixelFormat.TRANSPARENT)
         surfaceHolder.addCallback(this)
 
-        surfaceView.setOnTouchListener(this)
         surfaceView.setZOrderOnTop(true)
         surfaceView.setBackgroundColor(defaultBackgroundColor)
+        surfaceView.setOnTouchListener(this)
 
         with(binding) {
             fragmentDrawPaletteBlue.setOnClickListener(this@DrawFragment)
@@ -81,12 +81,13 @@ class DrawFragment : Fragment(), SurfaceHolder.Callback, View.OnTouchListener, V
             strokeCap = Paint.Cap.ROUND
             strokeWidth = defaultPaintWidth
         }
+
+        Log.e("yo", "viewCreated")
         return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
     }
 
     /**
@@ -136,6 +137,7 @@ class DrawFragment : Fragment(), SurfaceHolder.Callback, View.OnTouchListener, V
     override fun surfaceCreated(holder: SurfaceHolder) {
         surfaceHolder = holder
         path = Path()
+        Log.e("asd", "surfaceCreated")
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
@@ -155,6 +157,7 @@ class DrawFragment : Fragment(), SurfaceHolder.Callback, View.OnTouchListener, V
 
     override fun onClick(v: View?) {
         when (v?.id) {
+
             /* PENS */
             R.id.fragment_draw_brush -> {
                 paint.strokeWidth = 150f
@@ -256,9 +259,9 @@ class DrawFragment : Fragment(), SurfaceHolder.Callback, View.OnTouchListener, V
 
             }
         }
-if(this::path.isInitialized){
-    path.reset()
-}
+        if(this::path.isInitialized){
+            path.reset()
+        }
     }
 
     /**
@@ -272,4 +275,12 @@ if(this::path.isInitialized){
         surfaceHolder.unlockCanvasAndPost(canvas)
         path.reset()
     }
+
+    /**
+     * return bitmap to ActivitySketch
+     * */
+    public fun getBitmap(): Bitmap {
+        return drawBitmap
+    }
+
 }

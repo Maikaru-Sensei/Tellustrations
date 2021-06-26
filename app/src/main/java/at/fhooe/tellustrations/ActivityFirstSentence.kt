@@ -7,6 +7,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import at.fhooe.tellustrations.models.Card
+import at.fhooe.tellustrations.models.GameState
 
 class ActivityFirstSentence : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +43,14 @@ class ActivityFirstSentence : AppCompatActivity() {
             }else{
                 Toast.makeText(this,"Please hand the Phone to the next Player!", Toast.LENGTH_LONG).show()
                 preference.setStrBuffer(msg.text.toString())
+
+                val game = GameState.getGame()
+                val cards = game.cards
+                val c = Card(msg.text.toString(), null, 1)
+                cards?.set(0, c)
+
+                GameState.setGame(game)
+
                 val intentNextAc: Intent = Intent(this, ActivitySketch::class.java)
                 startActivity(intentNextAc)
                 finish()

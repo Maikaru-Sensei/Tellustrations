@@ -4,15 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
+import at.fhooe.tellustrations.models.Card
+import at.fhooe.tellustrations.models.GameState
 
 class ActivityWrite : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
-
-        val image = findViewById<ImageView>(R.id.imageView_acWrite_Image)
-        //image.setImageBitmap()//TODO
-        //image.setImageResource()//TODO or this
 
         val preference = sharedPreferences(this)
         var playerNr = preference.getPlayerNr()
@@ -23,11 +21,22 @@ class ActivityWrite : AppCompatActivity() {
 
         val msg = findViewById<EditText>(R.id.editText_acWrite_sentence)
 
+        val image = findViewById<ImageView>(R.id.imageView_acWrite_Image)
+
+        val game = GameState.getGame()
+        val cards = game.cards
+        val cardBefore = cards?.get(playerNr-2)
+        image.setImageBitmap(cardBefore?.bitmap)
+
         val btnDone = findViewById<Button>(R.id.button_acWrite_done)
         btnDone.setOnClickListener{
             if(msg.text.isEmpty()){
                 Toast.makeText(this,"Please enter a Sentence!", Toast.LENGTH_LONG).show()
             }else {
+                val card = Card(msg.text.toString(), cardBefore?.bitmap, playerNr)
+                cards?.set(playerNr-1, card)
+                GameState.setGame(game)
+
                 if(playerNr == maxPlayer){
                     val intentNextAc: Intent = Intent(this, ActivityResults::class.java)
                     startActivity(intentNextAc)
