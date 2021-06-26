@@ -68,6 +68,8 @@ class DrawFragment : Fragment(), SurfaceHolder.Callback, View.OnTouchListener, V
             fragmentDrawPaletteWhite.setOnClickListener(this@DrawFragment)
             fragmentDrawBrush.setOnClickListener(this@DrawFragment)
             fragmentDrawPen.setOnClickListener(this@DrawFragment)
+            fragmentDrawEraser.setOnClickListener(this@DrawFragment)
+            fragmentDrawWaste.setOnClickListener(this@DrawFragment)
         }
 
         // init Paint with default values
