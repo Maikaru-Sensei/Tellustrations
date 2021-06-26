@@ -4,6 +4,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityFirstSentance">
+    tools:context=".ActivityFirstSentence">
 
+    <TextView
+        android:id="@+id/textView_acFirstS_Sentance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Please write a creative Sentence to start the Game!"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/textView_acFirstSentence_player"
+        app:layout_constraintTop_toBottomOf="@+id/textView_acFirstSentence_player" />
+
+    <TextView
+        android:id="@+id/textView_acFirstSentence_player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Player: 1!"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_acFirstSentence_hint1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="It could be anything!"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/textView_acFirstS_Sentance"
+        app:layout_constraintTop_toBottomOf="@+id/textView_acFirstS_Sentance" />
+
+    <EditText
+        android:id="@+id/editText_acFirstSentence_firstSentence"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView_acFirstSentence_hint1"
+        app:layout_constraintTop_toBottomOf="@+id/textView_acFirstSentence_hint1" />
+
+    <Button
+        android:id="@+id/Button_acFirstSentence_SentenceHints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Examples Please?"
+        android:textColor="#631717"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="@+id/editText_acFirstSentence_firstSentence"
+        app:layout_constraintTop_toBottomOf="@+id/editText_acFirstSentence_firstSentence" />
+
+    <TextView
+        android:id="@+id/textView_acFirstSentence_examples"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/Button_acFirstSentence_SentenceHints"
+        app:layout_constraintTop_toBottomOf="@+id/Button_acFirstSentence_SentenceHints" />
+
+    <Button
+        android:id="@+id/button_acFirstSentence_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="Done!"
+        android:textColor="#631717"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/Button_acFirstSentence_SentenceHints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

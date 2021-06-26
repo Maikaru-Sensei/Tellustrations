@@ -4,10 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 
-class ActivityFirstSentance : AppCompatActivity() {
+class ActivityFirstSentence : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         var hide = false;
         super.onCreate(savedInstanceState)
@@ -29,12 +30,21 @@ class ActivityFirstSentance : AppCompatActivity() {
                 btnExamples.text = "Examples Please?"
             }
         }
+
+        val preference = sharedPreferences(this)
+        val msg = findViewById<EditText>(R.id.editText_acFirstSentence_firstSentence)
         val btnDone = findViewById<Button>(R.id.button_acFirstSentence_done)
         btnDone.setOnClickListener{
-            Toast.makeText(this,"Please hand the Phone to the next Player!", Toast.LENGTH_LONG).show()
-            val intentNextAc: Intent = Intent(this, ActivityWrite::class.java) //TODO
-            startActivity(intentNextAc)
-            finish()
+
+            if(msg.text.isEmpty()){
+                Toast.makeText(this,"Please enter a Sentence!", Toast.LENGTH_LONG).show()
+            }else{
+                Toast.makeText(this,"Please hand the Phone to the next Player!", Toast.LENGTH_LONG).show()
+                preference.setStrBuffer(msg.text.toString())
+                val intentNextAc: Intent = Intent(this, ActivitySketch::class.java)
+                startActivity(intentNextAc)
+                finish()
+            }
         }
     }
 }

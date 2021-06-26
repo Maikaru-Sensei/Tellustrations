@@ -9,20 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tellustrations">
-        <activity android:name=".DrawActivity">
+        <activity android:name=".ActivityResults"></activity>
+        <activity android:name=".ActivitySketch" />
+        <activity android:name=".ActivityCheckBuffer" />
+        <activity android:name=".ActivityWrite" />
+        <activity android:name=".ActivityDraw" />
+        <activity android:name=".ActivityFirstSentence" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".MainActivity">
-            <!-- TODO 23.04.2021: change back to MainActivity
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
         </activity>
     </application>
 

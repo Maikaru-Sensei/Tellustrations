@@ -256,8 +256,9 @@ class DrawFragment : Fragment(), SurfaceHolder.Callback, View.OnTouchListener, V
 
             }
         }
-
-        path.reset()
+if(this::path.isInitialized){
+    path.reset()
+}
     }
 
     /**

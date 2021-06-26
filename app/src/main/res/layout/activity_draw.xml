@@ -6,4 +6,61 @@
     android:layout_height="match_parent"
     tools:context=".ActivityDraw">
 
+    <TextView
+        android:id="@+id/textView_acDraw_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:text="Please draw the following Sentence:"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView_acDraw_PlayerX"
+        app:layout_constraintTop_toBottomOf="@+id/textView_acDraw_PlayerX" />
+
+    <TextView
+        android:id="@+id/textView_acDraw_PlayerX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Player:"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_acDraw_SentenceDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/textView_acDraw_message"
+        app:layout_constraintTop_toBottomOf="@+id/textView_acDraw_message" />
+
+    <Button
+        android:id="@+id/button_acDraw_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Done!"
+        android:textColor="#631717"
+        android:textSize="20sp"
+        app:iconTint="#631717"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView_acDraw_PlayerX" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="at.fhooe.tellustrations.ui.DrawFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_acDraw_SentenceDisplay" />
 </androidx.constraintlayout.widget.ConstraintLayout>
