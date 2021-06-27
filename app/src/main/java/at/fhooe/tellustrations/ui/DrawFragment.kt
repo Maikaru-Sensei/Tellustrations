@@ -32,7 +32,7 @@ class DrawFragment : Fragment(), SurfaceHolder.Callback, View.OnTouchListener, V
     private lateinit var path: Path
     private lateinit var seekBarEraser: SeekBar
     private var defaultBackgroundColor: Int = Color.WHITE
-    private var defaultPaintWidth: Float = 50f
+    private var defaultPaintWidth: Float = 35f
     private lateinit var drawBitmap : Bitmap
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -166,7 +166,7 @@ class DrawFragment : Fragment(), SurfaceHolder.Callback, View.OnTouchListener, V
             }
 
             R.id.fragment_draw_pen -> {
-                paint.strokeWidth = 50f
+                paint.strokeWidth = defaultPaintWidth
             }
 
             /* COLORS */
